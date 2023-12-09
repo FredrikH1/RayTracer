@@ -198,7 +198,7 @@ void Camera::RecalculateRayDirections()
 			for (uint32_t x = 0; x < m_ViewportWidth; x++)
 			{
 	
-				glm::vec3 upDirection = glm::cross(-m_ForwardDirection, m_RightDirection);
+				glm::vec3 upDirection = glm::cross(-m_ForwardDirection, glm::normalize(m_RightDirection));
 
 				glm::vec3 rayDirection = m_HSines[x]*m_RightDirection + m_HCosines[x]*(m_VSines[y] * upDirection  + m_VCosines[y] * m_ForwardDirection);
 				
