@@ -154,7 +154,6 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		}
 		
 		const Hitable* hitable = nullptr;
-		glm::vec2 uv;
 		if (payload.ObjectIndex < m_ActiveScene->Spheres.size())
 		{
 			hitable = &m_ActiveScene->Spheres[payload.ObjectIndex];
@@ -164,8 +163,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		{
 			hitable = &m_ActiveScene->Triangles[payload.ObjectIndex - m_ActiveScene->Spheres.size()];
 		}
-			
-
+	
 		
 		const Material& material = m_ActiveScene->Materials[hitable->MaterialIndex];
 	
@@ -176,7 +174,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 
 
 		float refractionRatio;
-		float cosTheta = glm::dot(ray.Direction, payload.WorldNormal);
+		float cosTheta = glm::dot(ray.Direction, payload.WorldNormal); //Not exactly cosTheta since ray.Direction might not be normalized, but good enough if material isn't dielectric.s
 		if (cosTheta <= 0) // From which side did we hit the surface
 		{
 			refractionRatio = 1.0f/ material.refractiveIndex;
@@ -196,7 +194,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 			if (refractionRatio * glm::sqrt(1.0f - (cosTheta * cosTheta)) <= 1.0f && Utils::SchlickReflectance(cosTheta, refractionRatio) < Utils::RandomFloat(seed))
 			{
 				//Refract
-				ray.Origin = payload.WorldPosition - payload.WorldNormal * 0.00001f; // Bias to avoid colliding with own object, - to refrect through object
+				ray.Origin = payload.WorldPosition - payload.WorldNormal * 0.001f; // Bias to avoid colliding with own object, - to refrect through object
 				ray.Direction = glm::refract(ray.Direction, payload.WorldNormal, refractionRatio);
 				continue;
 			}
@@ -204,7 +202,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		}
 
 		{
-			ray.Origin = payload.WorldPosition + payload.WorldNormal * 0.00001f; // Bias to avoid colliding with own object
+			ray.Origin = payload.WorldPosition + payload.WorldNormal * 0.001f; // Bias to avoid colliding with own object
 			glm::vec3 metallic = glm::reflect(ray.Direction, payload.WorldNormal) + Utils::InUnitSphere(seed) * material.Roughness;
 			glm::vec3 diffuse = payload.WorldNormal + material.Roughness * Utils::InUnitSphere(seed); //Lambertian diffuse
 

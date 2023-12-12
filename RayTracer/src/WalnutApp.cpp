@@ -143,6 +143,17 @@ public:
 		ImGui::Separator();
 		ImGui::Text("Spheres");
 
+		if (ImGui::Button("20 Random Spheres"))
+		{
+			uint32_t prevNbrSpheres = m_Scene.Spheres.size();
+			for (int i = 0; i < 20; i++)
+			{
+				m_Scene.Spheres.emplace_back(Sphere{});
+				m_Scene.Spheres[prevNbrSpheres + i].Position = glm::vec3(rand() % 20 - 10, rand()%20 - 10, - rand()%20);
+			}
+
+		}
+
 		i = 0;
 		for (Sphere& sphere : m_Scene.Spheres)
 		{	
