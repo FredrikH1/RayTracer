@@ -138,11 +138,11 @@ void Camera::OnFOV()
 }
 
 
-#define CAMERA_OWN 1
+#define CAMERA_CACHEDSINES 1
 #define CAMERA_MT 1
 
 
-#if CAMERA_OWN
+#if CAMERA_CACHEDSINES
 
 void Camera::RecalculateProjection()
 {

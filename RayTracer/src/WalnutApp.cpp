@@ -21,7 +21,13 @@ class ExampleLayer : public Walnut::Layer
 {
 public:
 	ExampleLayer()
-		: m_Camera(45.0f, 0.1f, 100.0f) {}
+		: m_Camera(45.0f, 0.1f, 100.0f) 
+	{
+		//Loading textures. Currently texture names have to be hard coded in.
+		m_Scene.Textures.emplace_back(std::make_shared<Texture>( "earthmap10k.jpg" ));
+		m_Scene.Textures.emplace_back(std::make_shared<Texture>( "corrugated_iron_02_diff_4k.jpg" ));
+
+	}
 
 	virtual void OnUpdate(float ts) override
 	{
@@ -97,6 +103,10 @@ public:
 			}
 			
 			ImGui::ColorEdit3("Albedo", glm::value_ptr(material.Albedo));
+			if (ImGui::Button(("Texture: " + material.texture->textureName).c_str()))
+			{
+				ImGui::OpenPopup("Textures");
+			}
 			ImGui::DragFloat("Roughness", &material.Roughness, 0.01f, 0.0f, 1.0f);
 			ImGui::DragFloat("Metallic", &material.Metallic, 0.01f, 0.0f, 1.0f);
 			ImGui::Checkbox("Dielectric", &material.dielectric);
@@ -106,6 +116,20 @@ public:
 			}
 			ImGui::ColorEdit3("Emission Color", glm::value_ptr(material.EmissionColor));
 			ImGui::DragFloat("Emission Power", &material.EmissionPower, 0.1f, 0.0f, FLT_MAX);
+
+
+			if (ImGui::BeginPopupModal("Textures")) {
+				for (std::shared_ptr<Texture>& texture : m_Scene.Textures)
+				{
+					if (ImGui::Button( texture->textureName.c_str()))
+					{
+						material.texture = texture;
+						ImGui::CloseCurrentPopup();
+						ImGui::Separator();
+					}
+				}
+				ImGui::EndPopup();
+			}
 
 			i++;
 			ImGui::Separator();

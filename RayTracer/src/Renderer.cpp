@@ -170,7 +170,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 
 		light += material.GetEmission() * contribution;
 		
-		contribution *= material.texture->value(payload.uv[0], payload.uv[1], glm::vec3{ 0.0f }) * material.Albedo;
+		contribution *= material.texture->value(payload.uv[0], payload.uv[1]) * material.Albedo;
 
 
 		float refractionRatio;

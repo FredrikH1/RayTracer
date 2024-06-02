@@ -39,7 +39,7 @@ struct Material
 {
 
 	glm::vec3 Albedo{ 1.0f };
-	std::shared_ptr<Texture> texture = std::make_shared<Texture>((const char*)"earthmap10k.jpg");
+	std::shared_ptr<Texture> texture = std::make_shared<Texture>(); //= std::make_shared<Texture>((const char*)"earthmap10k.jpg");
 
 	float Metallic = 0.0f;
 	float Roughness = 1.0f;
