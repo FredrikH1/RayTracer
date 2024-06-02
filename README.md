@@ -17,6 +17,14 @@ In the future I want to add:
 ## Example Rendered Image
 ![Rendered Spheres and Triangles](Scenes/RenderedScene.png)
 
+## Building and Running
+Supports Windows 10/11 and Visual Studio 2022. [Vulkan SDK](https://vulkan.lunarg.com/) required.
+
+  1. Clone recursively: `git clone --recursive https://github.com/FredrikH1/RayTracer.git`
+  2. Run `scripts/Setup.bat`
+  3. Open `RayTracing.sln` and hit F5 (might need to change configuration to Release or Dist first, Debug is slow)
+
+
 ### 3rd party libaries
 - [Walnut](https://github.com/StudioCherno/Walnut)
 - [Dear ImGui](https://github.com/ocornut/imgui)
